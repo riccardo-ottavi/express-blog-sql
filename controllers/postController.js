@@ -1,11 +1,15 @@
-// importiamo i dati della risorsa
-const postsIndex = require('../data/index');
-
+// Importiamo il file di connessione al database
+const connection = require('../data/db');
+// Index
 function index(req, res) {
-    res.json(postsIndex);
-    console.log("ciao ciao")
-};
-
+    // prepariamo la query
+    const sql = 'SELECT * FROM posts';
+    // eseguiamo la query!
+    connection.query(sql, (err, results) => {
+        if (err) return res.status(500).json({ error: 'Database query failed' });
+        res.json(results);
+    });
+}
 
 function show(req, res) {
     const id = parseInt(req.params.id)
